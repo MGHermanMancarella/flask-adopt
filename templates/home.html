@@ -2,16 +2,22 @@
 {% for pet in pets %}
 
 <div>
-	<img src="{{pet.photo_url}}" alt="some cute animal" />
+	<img
+		src="{{pet.photo_url}}"
+		alt="some cute animal"
+	/>
 	<div>{{pet.name}}</div>
 	<div>
-		{% if pet.available %}
-			is available!
-		{% else %}
-			is not available.
-		{% endif %}
+		{% if pet.available %} is available! {% else %} is not available. {%
+		endif %}
 	</div>
 </div>
+{% endfor %}
+<a
+	href="/add"
+	class="btn btn-primary"
+	>Add a Pet</a
+>
 
 {% endblock %}
 

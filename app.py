@@ -2,7 +2,7 @@
 
 import os
 
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import connect_db, Pet, db
@@ -43,11 +43,16 @@ def add_pet():
 
     if form.validate_on_submit():
         name = form.name.data
-        price = form.price.data
-        # do stuff with data/insert to db
+        age = form.age.data
+        species = form.species.data
+        photo = form.photo_url.data
+        notes = form.notes.data
+        new_pet = Pet(age=age, species=species, photo_url=photo, notes=notes, name=name)
+        db.session.add(new_pet)
+        db.session.commit()
 
-        flash(f"Added {name} at {price}")
-        return redirect("/add")
+        flash(f"{name} added to adoption list!")
+        return redirect("/")
 
     else:
         return render_template(
