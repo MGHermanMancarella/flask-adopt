@@ -1,21 +1,37 @@
 {% extends 'base.html' %} {% block title%} Pet Info: {{pet.name}} {%endblock%}
 {% block content%}
 
-<img src="{{pet.photo_url}}" alt="some cute animal">
+<img
+	src="{{pet.photo_url}}"
+	alt="some cute animal"
+/>
 
 <p>{{pet.name}} is a {{pet.age}} {{pet.species}}.</p>
 
-<form id="EditPetForm" method="POST">
-  {{ edit_form.hidden_tag() }} {% for field in edit_form if field.widget.input_type !=
-  'hidden' %}
+<form
+	id="EditPetForm"
+	method="POST"
+>
+	{{ edit_form.hidden_tag() }} {% for field in edit_form if
+	field.widget.input_type != 'hidden' %}
 
-  <p>
-    {{ field.label }} {{ field }} {% for error in field.errors %} {{ error
-    }} {% endfor %}
-  </p>
+	<p>
+		{{ field.label }} {{ field }} {% for error in field.errors %} {{ error
+		}} {% endfor %}
+	</p>
 
-  {% endfor %}
+	{% endfor %}
 
-  <button type="submit">Submit</button>
+	<button
+		class
+		type="submit"
+	>
+		Submit
+	</button>
 </form>
+<a
+	href="/"
+	class="btn btn-primary"
+	>Home</a
+>
 {% endblock %}

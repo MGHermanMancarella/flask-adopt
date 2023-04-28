@@ -1,6 +1,7 @@
 """Models for adopt app."""
 
 from flask_sqlalchemy import SQLAlchemy
+from forms import PET_AGES, SPECIES_LIST
 
 db = SQLAlchemy()
 
@@ -30,9 +31,9 @@ class Pet(db.Model):
         nullable=False
     )
 
-    #TODO: add condition at db level for the selection
     species = db.Column(
         db.String(20),
+        db.CheckConstraint(f"species in {SPECIES_LIST}"),
         nullable=False
     )
 
@@ -42,15 +43,14 @@ class Pet(db.Model):
         default=''
     )
 
-    #TODO: add condition at db level for the selection
     age = db.Column(
         db.String(6),
+        db.CheckConstraint(f"age in {PET_AGES}"),
         nullable=False
     )
 
     notes = db.Column(
         db.Text,
-        nullable=True
     )
 
     available = db.Column(

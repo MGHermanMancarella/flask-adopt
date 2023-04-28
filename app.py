@@ -2,7 +2,7 @@
 
 import os
 
-from flask import Flask, request, redirect, render_template, flash
+from flask import Flask, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import connect_db, Pet, db
@@ -11,6 +11,8 @@ from forms import AddPetForm, EditPetForm
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "secret"
+app.config['SQLALCHEMY_ECHO'] = True
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     "DATABASE_URL", "postgresql:///adopt")
@@ -40,14 +42,21 @@ def add_pet():
 
     form = AddPetForm()
 
+    #updates database if valid inputs
     if form.validate_on_submit():
         name = form.name.data
         age = form.age.data
         species = form.species.data
         photo_url = form.photo_url.data
         notes = form.notes.data
-        new_pet = Pet(age=age, species=species,
-                      photo_url=photo_url, notes=notes, name=name)
+        new_pet = Pet(
+            age=age,
+            species=species,
+            photo_url=photo_url,
+            notes=notes,
+            name=name
+        )
+
         db.session.add(new_pet)
         db.session.commit()
 
@@ -65,7 +74,6 @@ def display_pet_info(pet_id):
     as well as a form to edit the pet's info"""
 
     pet = Pet.query.get_or_404(pet_id)
-
     edit_form = EditPetForm(obj=pet)
 
     if edit_form.validate_on_submit():
@@ -73,7 +81,6 @@ def display_pet_info(pet_id):
         pet.notes = edit_form.notes.data
         pet.available = edit_form.available.data
 
-        db.session.add(pet)
         db.session.commit()
 
         flash(f"The page for {pet.name} has been updated!")
