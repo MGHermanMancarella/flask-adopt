@@ -30,6 +30,7 @@ class Pet(db.Model):
         nullable=False
     )
 
+    #TODO: add condition at db level for the selection
     species = db.Column(
         db.String(20),
         nullable=False
@@ -41,6 +42,7 @@ class Pet(db.Model):
         default=''
     )
 
+    #TODO: add condition at db level for the selection
     age = db.Column(
         db.String(6),
         nullable=False
