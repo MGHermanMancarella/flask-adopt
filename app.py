@@ -5,7 +5,9 @@ import os
 from flask import Flask, request, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 
-from models import connect_db, Pet
+from models import connect_db, Pet, db
+
+from forms import AddPetForm
 
 app = Flask(__name__)
 
@@ -26,10 +28,28 @@ toolbar = DebugToolbarExtension(app)
 
 @app.get('/')
 def render_home():
+    """displays the homepage"""
 
     pets = Pet.query.all()
 
-
     return render_template('home.html', pets=pets)
 
-@app.get
+
+@app.route("/add", methods=["GET", "POST"])
+def add_pet():
+    """Pet add form; handle adding."""
+
+    form = AddPetForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        price = form.price.data
+        # do stuff with data/insert to db
+
+        flash(f"Added {name} at {price}")
+        return redirect("/add")
+
+    else:
+        return render_template(
+            "add_pet.html", form=form)
+

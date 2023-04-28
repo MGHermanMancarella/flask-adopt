@@ -1,15 +1,15 @@
 {% extends 'base.html' %} {% block title%} Home {%endblock%} {% block content %}
-{% for pet of pets %}
+{% for pet in pets %}
 
 <div>
-	<img
-		src="{{pet.photo_url}}"
-		alt="some cute animal"
-	/>
+	<img src="{{pet.photo_url}}" alt="some cute animal" />
 	<div>{{pet.name}}</div>
 	<div>
-		{% if pet.available %} is available! {% else %} is not available. {%
-		endif %}
+		{% if pet.available %}
+			is available!
+		{% else %}
+			is not available.
+		{% endif %}
 	</div>
 </div>
 
